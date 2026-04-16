@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard</title>
+
+<link rel="stylesheet" href="styles.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+/* DASHBOARD UI */
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stat-icon {
+  font-size: 20px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(52,105,154,0.1);
+  color: var(--primary);
+}
+
+.quick-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quick-actions button {
+  flex: 1;
+}
+
+.activity-item {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.announcement-card {
+  position: relative;
+}
+
+.announcement-card .tag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+/* SIDEBAR HEADER (LOGO + SETTINGS) */
+.logo-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+
+/* SETTINGS WRAPPER */
+.settings-wrapper {
+  position: relative;
+}
+
+/* ICON BUTTON */
+.settings-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.settings-icon:hover {
+  background: var(--hover);
+}
+
+/* DROPDOWN */
+.settings-dropdown {
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 160px;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+.settings-dropdown a,
+.settings-dropdown button {
+  padding: 10px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.settings-dropdown a:hover,
+.settings-dropdown button:hover {
+  background: var(--hover);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+
+  <!-- LOGO + SETTINGS -->
+  <div class="logo-bar">
+
+    <div class="logo">
+      <img src="logo.png">
+      <h3>UNITYCARE</h3>
+    </div>
+
+    <!-- SETTINGS ICON -->
+    <div class="settings-wrapper">
+
+      <button class="settings-icon" onclick="toggleSettingsMenu()">
+        <i class="fa fa-gear"></i>
+      </button>
+
+      <div class="settings-dropdown" id="settingsDropdown">
+
+        <a href="profile.html">
+          <i class="fa fa-user"></i> Profile
+        </a>
+
+        <button onclick="toggleTheme()">
+          <i class="fa fa-moon"></i> Dark Mode
+        </button>
+
+        <button onclick="logout()">
+          <i class="fa fa-right-from-bracket"></i> Logout
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="menu">
+
+    <a href="dashboard.html" class="active">
+      <i class="fa fa-th-large"></i> Dashboard
+    </a>
+
+    <p class="menu-title">SERVICES</p>
+    <a href="booking.html"><i class="fa fa-calendar"></i> Book Appointment</a>
+    <a href="concerns.html"><i class="fa fa-exclamation-triangle"></i> Submit Concern</a>
+    <a href="wellness.html"><i class="fa fa-heart"></i> Wellness Check</a>
+    <a href="referral.html"><i class="fa fa-route"></i> Referral</a>
+
+    <p class="menu-title">UPDATES</p>
+    <a href="announcements.html"><i class="fa fa-bullhorn"></i> Announcements</a>
+
+    <p class="menu-title">RECORDS</p>
+    <a href="history.html"><i class="fa fa-clock"></i> Session History</a>
+    <a href="documents.html"><i class="fa fa-file"></i> Documents</a>
+    <a href="ticket.html"><i class="fa fa-ticket"></i> Tickets</a>
+
+    <p class="menu-title">SYSTEM</p>
+    <a href="feedback.html"><i class="fa fa-comment"></i> Session Feedback</a>
+
+  </div>
+
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="topbar">
+    <h2>Welcome back, Student 👋</h2>
+  </div>
+
+  <!-- STATS -->
+  <div class="grid">
+
+    <div class="card stat-card">
+      <div class="stat-icon"><i class="fa fa-calendar"></i></div>
+      <div>
+        <h3 id="sessions">2</h3>
+        <p class="muted">Upcoming Sessions</p>
+      </div>
+    </div>
+
+    <div class="card stat-card">
+      <div class="stat-icon"><i class="fa fa-ticket"></i></div>
+      <div>
+        <h3>1</h3>
+        <p class="muted">Open Tickets</p>
+      </div>
+    </div>
+
+    <div class="card stat-card">
+      <div class="stat-icon"><i class="fa fa-heart"></i></div>
+      <div>
+        <h3 id="mood">😊</h3>
+        <p class="muted">Last Mood</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- QUICK ACTIONS -->
+  <div class="card" style="margin-top:15px;">
+    <h3>Quick Actions</h3>
+
+    <div class="quick-actions">
+      <button class="btn" onclick="go('booking.html')">
+        <i class="fa fa-calendar"></i> Book
+      </button>
+      <button class="btn" onclick="go('concerns.html')">
+        <i class="fa fa-exclamation"></i> Report
+      </button>
+      <button class="btn" onclick="go('wellness.html')">
+        <i class="fa fa-heart"></i> Wellness
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="grid" style="margin-top:15px;">
+
+    <div class="card announcement-card">
+      <h3><i class="fa fa-bullhorn"></i> Announcement</h3>
+      <span class="tag urgent">Urgent</span>
+      <p><b>Seminar Scheduled</b></p>
+      <p>Friday 2PM - Main Hall</p>
+    </div>
+
+    <div class="card">
+      <h3><i class="fa fa-clock"></i> Recent Activity</h3>
+      <div class="activity-item">✔ Session booked (Apr 12)</div>
+      <div class="activity-item">✔ Wellness check submitted</div>
+      <div class="activity-item">✔ Profile updated</div>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- SCRIPT -->
+<script>
+
+function toggleSettingsMenu() {
+  const menu = document.getElementById("settingsDropdown");
+  const isOpen = menu.style.display === "flex";
+  menu.style.display = isOpen ? "none" : "flex";
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute("data-theme");
+  html.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+}
+
+function logout() {
+  window.location.href = "index.html";
+}
+
+function go(page) {
+  window.location.href = page;
+}
+
+setInterval(() => {
+  const moods = ["😊","😐","😔","😄"];
+  document.getElementById("mood").innerText =
+    moods[Math.floor(Math.random() * moods.length)];
+}, 4000);
+
+</script>
+
+</body>
+</html>
